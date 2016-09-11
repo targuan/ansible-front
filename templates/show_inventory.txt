@@ -1,0 +1,6 @@
+{% for group in groups %}
+[{{ group.name }}]
+{% for host in group.hosts %}
+{{host.name}} {{ host.variables }} {% for variable in host.variables %}{{ variable.key }}={{ variable.value }}{% endfor %}
+{% endfor %}
+{% endfor %}

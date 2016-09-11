@@ -1,0 +1,17 @@
+---
+{%- for play in playbook.plays %}
+- hosts: {%- for group in play.groups %} {{ group }}{% endfor %}
+  tasks:
+    {%- for task in play.tasks %}
+    - name: {{ task.name }}
+      {{ task.action }}:
+        {%- for variable in task.get_grouped_variables() %}
+        {{ variable.key }}:{%- if variable.value is string %} {{ variable.value }}
+            {%- else %}
+            {%- for value in variable.value %}
+            - {{ value }}
+            {%- endfor %}
+            {%- endif %}
+        {%- endfor %}
+    {%- endfor %}
+{%- endfor %}
